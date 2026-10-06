@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Opaque: the transparency is applied at runtime from the user setting. -->
+    <color name="widget_bg">#FF1C1C1E</color>
+    <color name="widget_text">#FFFFFFFF</color>
+    <color name="widget_muted">#B3FFFFFF</color>
+    <!-- Tenda web interface brand orange. -->
+    <color name="widget_accent">#FFFF801F</color>
+    <!-- Unlit signal bars: dim rather than invisible, like the status bar. -->
+    <color name="widget_signal_off">#40FFFFFF</color>
+    <!-- The modem runs on its own battery, so a low charge is worth shouting about. -->
+    <color name="widget_battery_low">#FFFF5252</color>
+</resources>

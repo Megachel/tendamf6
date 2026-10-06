@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Sizes follow the launcher's cell formula, 70 * n - 30 dp, so the minimum
+    here is 2 cells wide by 1 tall. minWidth/minHeight bound resizing on older
+    releases, minResize* on Android 12+, and targetCell* set the size the
+    widget is dropped at.
+-->
+<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+    android:minWidth="110dp"
+    android:minHeight="40dp"
+    android:minResizeWidth="110dp"
+    android:minResizeHeight="40dp"
+    android:targetCellWidth="3"
+    android:targetCellHeight="1"
+    android:description="@string/widget_description"
+    android:initialLayout="@layout/widget_tenda"
+    android:previewLayout="@layout/widget_tenda"
+    android:resizeMode="horizontal|vertical"
+    android:widgetCategory="home_screen"
+    android:updatePeriodMillis="0" />

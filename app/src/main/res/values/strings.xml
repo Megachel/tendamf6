@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Tenda MF6</string>
+    <string name="widget_description">Battery, signal, network type and SMS of a Tenda MF6 modem</string>
+
+    <string name="widget_setup_needed">Open the app and set the modem password</string>
+    <string name="widget_no_data">No data yet — tap ⟳</string>
+    <string name="refresh_glyph">⟳</string>
+    <string name="no_service">No service</string>
+    <string name="signal_desc">Signal strength</string>
+    <string name="battery_desc">Battery level</string>
+    <string name="sms_desc">Unread messages</string>
+
+    <!-- Only the remainder: on a 3x1 widget the used/total pair costs a whole
+         row and the number people actually want is what is left. -->
+    <string name="traffic_left">%1$s left</string>
+    <!-- No limit configured on the modem, so there is no remainder to show. -->
+    <string name="traffic_used">Used %1$s</string>
+    <string name="footer_short">%1$s</string>
+    <string name="footer_ok">Updated %1$s</string>
+    <!-- The reason never fits next to the traffic figure and pushes it off the
+         row, so the widget only flags staleness; the text is in the app. -->
+    <string name="footer_stale_short">⚠ %1$s</string>
+
+    <string name="settings_hint">The phone must be connected to the modem Wi-Fi. The password is the same as for the web interface.</string>
+    <string name="hint_host">Modem address</string>
+    <string name="hint_password">Web interface password</string>
+    <string name="label_interval">Polling interval</string>
+    <string name="label_opacity">Widget background opacity</string>
+    <string name="percent_value">%1$d%%</string>
+    <string name="label_notify">Notify about new SMS</string>
+    <string name="every_n_minutes">Every %1$d min</string>
+
+    <string name="action_save">Save</string>
+    <string name="action_test">Test</string>
+    <string name="action_open_sms">Open SMS</string>
+    <string name="action_mark_read">Mark as read</string>
+
+    <string name="checking">Checking…</string>
+    <string name="loading">Loading…</string>
+    <string name="no_wifi">No Wi-Fi connection</string>
+    <string name="wrong_network">Not on the modem network</string>
+    <string name="error_prefix">Error: %1$s</string>
+    <string name="charging">, charging</string>
+
+    <string name="res_battery">Battery:  %1$d%%%2$s</string>
+    <string name="res_signal">Signal:   %1$d of 3</string>
+    <string name="res_network">Network:  %1$s · %2$s</string>
+    <string name="res_unread">SMS:      %1$d unread</string>
+    <string name="res_traffic">Traffic:  %1$s</string>
+    <string name="res_traffic_limit">Traffic:  %1$s left</string>
+
+    <string name="sms_summary">%1$d total, %2$d unread</string>
+    <string name="unread_total">Unread in total: %1$d</string>
+    <string name="channel_sms">New SMS</string>
+
+    <plurals name="new_sms">
+        <item quantity="one">New SMS on the modem</item>
+        <item quantity="other">%1$d new SMS on the modem</item>
+    </plurals>
+</resources>

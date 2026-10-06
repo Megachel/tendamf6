@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- Stylised signal bars. -->
+    <path android:fillColor="#FFFFFF" android:pathData="M34,62h8v16h-8z" />
+    <path android:fillColor="#FFFFFF" android:pathData="M50,50h8v28h-8z" />
+    <path android:fillColor="#FFFFFF" android:pathData="M66,38h8v40h-8z" />
+</vector>

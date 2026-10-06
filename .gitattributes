@@ -1,0 +1,5 @@
+# Git already warned it would rewrite gradlew.bat's line endings; a Windows
+# batch file needs CRLF to run.
+* text=auto eol=lf
+*.bat text eol=crlf
+*.jar binary

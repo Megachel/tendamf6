@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Signal staircase, 4 of 4 bars lit. Generated set: ic_signal_none/0..3. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="19dp"
+    android:height="16dp"
+    android:viewportWidth="19"
+    android:viewportHeight="16">
+    <path
+        android:fillColor="@color/widget_accent"
+        android:pathData="M0,10.5h4v5.5h-4z" />
+    <path
+        android:fillColor="@color/widget_accent"
+        android:pathData="M5,7h4v9h-4z" />
+    <path
+        android:fillColor="@color/widget_accent"
+        android:pathData="M10,3.5h4v12.5h-4z" />
+    <path
+        android:fillColor="@color/widget_accent"
+        android:pathData="M15,0h4v16h-4z" />
+</vector>

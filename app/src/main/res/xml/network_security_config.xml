@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    The modem serves its web interface over plain HTTP only — there is no HTTPS
+    endpoint to use instead. Since Android 9 cleartext is blocked by default,
+    which surfaces as "Cleartext HTTP traffic not permitted".
+
+    cleartextTrafficPermitted is set on the base config rather than on a
+    domain-config with a hardcoded address because the modem host is
+    user-configurable in settings; pinning it to 192.168.0.1 would break with
+    the same confusing error for anyone who changes it.
+
+    In practice the app only ever talks to the configured modem on the local
+    network.
+-->
+<network-security-config>
+    <base-config cleartextTrafficPermitted="true" />
+</network-security-config>

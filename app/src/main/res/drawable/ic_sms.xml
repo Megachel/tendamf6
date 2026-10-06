@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Envelope drawn at the same 1.2 stroke weight and the same height as the
+    battery icon, so the two read as one family. Was a text glyph before, which
+    rendered smaller than the vectors and sat on the text baseline.
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="12dp"
+    android:height="9dp"
+    android:viewportWidth="16"
+    android:viewportHeight="12">
+    <path
+        android:strokeColor="@color/widget_text"
+        android:strokeWidth="1.2"
+        android:fillColor="#00000000"
+        android:pathData="M2,1.4h12a1,1 0 0 1 1,1v7.2a1,1 0 0 1 -1,1h-12a1,1 0 0 1 -1,-1v-7.2a1,1 0 0 1 1,-1z" />
+    <path
+        android:strokeColor="@color/widget_text"
+        android:strokeWidth="1.2"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round"
+        android:fillColor="#00000000"
+        android:pathData="M1.6,2.6L8,7.2 14.4,2.6" />
+</vector>

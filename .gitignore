@@ -1,0 +1,37 @@
+# Gradle
+.gradle/
+build/
+
+# Points at this machine's SDK; Gradle regenerates it.
+local.properties
+
+# IDE
+.idea/
+*.iml
+captures/
+.externalNativeBuild/
+.cxx/
+
+# Build artefacts
+*.apk
+*.aab
+*.ap_
+*.dex
+
+# Signing material. The debug key is per-machine and a release key must never
+# be committed.
+*.jks
+*.keystore
+keystore.properties
+
+# HAR captures of the modem's web interface. The one this project was
+# reverse-engineered from contains wifiBasicCfg.password in plaintext, which on
+# this modem is also the web interface password.
+*.har
+
+# macOS
+.DS_Store
+
+# Python (tenda_probe.py)
+__pycache__/
+*.pyc
