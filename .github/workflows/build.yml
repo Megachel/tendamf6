@@ -29,8 +29,10 @@ jobs:
           distribution: temurin
           java-version: '17'
 
-      - name: Set up Android SDK
-        uses: android-actions/setup-android@v3
+      # No SDK setup step: the ubuntu-24.04 runner image already ships
+      # ANDROID_HOME with build-tools 34.0.0 and platform android-34, which is
+      # exactly what app/build.gradle.kts asks for. Installing it again failed
+      # and bought nothing.
 
       # Caches ~/.gradle between runs.
       - name: Set up Gradle
