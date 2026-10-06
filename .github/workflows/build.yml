@@ -1,0 +1,50 @@
+name: Build debug APK
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+# Nothing here writes to the repository.
+permissions:
+  contents: read
+
+# A newer push makes an in-flight build pointless.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      # Matches jvmTarget in app/build.gradle.kts.
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
+
+      # Caches ~/.gradle between runs.
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Build debug APK
+        run: ./gradlew assembleDebug --no-daemon
+
+      # Note: this APK is signed with the debug key generated on the runner,
+      # not the one on your machine. Installing it over a locally built copy
+      # fails with INSTALL_FAILED_UPDATE_INCOMPATIBLE — uninstall first.
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-debug
+          path: app/build/outputs/apk/debug/app-debug.apk
+          if-no-files-found: error

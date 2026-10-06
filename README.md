@@ -232,6 +232,12 @@ export ANDROID_HOME=/opt/homebrew/share/android-commandlinetools
 adb install -r app/build/outputs/apk/debug/app-debug.apk
 ```
 
+`.github/workflows/build.yml` does the same on every push to `main`, on pull
+requests and on demand, and uploads the result as the `app-debug` artifact. The
+CI copy is signed with the debug key generated on the runner rather than the one
+on your machine, so installing it over a locally built copy fails with
+`INSTALL_FAILED_UPDATE_INCOMPATIBLE`; uninstall first.
+
 Only the debug variant is installable as is — it is signed with the local debug
 key. `release` has no `signingConfig`, so `assembleRelease` produces an unsigned
 APK that `adb install` refuses.
