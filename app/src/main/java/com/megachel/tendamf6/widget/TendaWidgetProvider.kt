@@ -59,6 +59,7 @@ class TendaWidgetProvider : AppWidgetProvider() {
     override fun onReceive(context: Context, intent: Intent) {
         super.onReceive(context, intent)
         if (intent.action == ACTION_REFRESH) {
+            Prefs.refreshStartedAt = System.currentTimeMillis()
             Scheduler.pollNow(context)
             refreshAll(context)
         }
@@ -126,7 +127,7 @@ class TendaWidgetProvider : AppWidgetProvider() {
             )
             val compact = height in 1 until COMPACT_BELOW_DP
             // At two cells the first row has roughly 164dp of usable width for
-            // icon + mode + battery + unread + refresh, which is right at the
+            // icon + mode + battery + unread, which is right at the
             // edge at 15sp — so shrink the type and the padding instead of
             // letting anything ellipsize away.
             val narrow = width in 1 until NARROW_BELOW_DP
@@ -142,6 +143,10 @@ class TendaWidgetProvider : AppWidgetProvider() {
                 else -> showStatus(context, views, status, error, compact)
             }
 
+            val refreshing = Prefs.isRefreshing
+            views.setViewVisibility(R.id.refresh_icon, if (refreshing) View.GONE else View.VISIBLE)
+            views.setViewVisibility(R.id.refresh_spinner, if (refreshing) View.VISIBLE else View.GONE)
+
             applyScale(context, views, narrow)
             views.setInt(
                 R.id.background, "setImageAlpha", Prefs.backgroundOpacity * 255 / 100
@@ -155,7 +160,7 @@ class TendaWidgetProvider : AppWidgetProvider() {
         private fun applyScale(context: Context, views: RemoteViews, narrow: Boolean) {
             val primary = if (narrow) 13f else 15f
             val secondary = if (narrow) 10f else 11f
-            for (id in intArrayOf(R.id.mode, R.id.battery, R.id.sms, R.id.refresh)) {
+            for (id in intArrayOf(R.id.mode, R.id.battery, R.id.sms)) {
                 views.setTextViewTextSize(id, TypedValue.COMPLEX_UNIT_SP, primary)
             }
             for (id in intArrayOf(R.id.operator, R.id.traffic, R.id.footer)) {

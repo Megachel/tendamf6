@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Indeterminate drawable for the widget's refresh spinner. RemoteViews cannot
+    run view animations, but an indeterminate ProgressBar animates its drawable's
+    level on its own, and <rotate> maps level 0..10000 to 0..360 degrees.
+-->
+<rotate xmlns:android="http://schemas.android.com/apk/res/android"
+    android:drawable="@drawable/ic_refresh"
+    android:fromDegrees="0"
+    android:toDegrees="360"
+    android:pivotX="50%"
+    android:pivotY="50%" />

@@ -5,7 +5,7 @@
 
     <string name="widget_setup_needed">Open the app and set the modem password</string>
     <string name="widget_no_data">No data yet — tap ⟳</string>
-    <string name="refresh_glyph">⟳</string>
+    <string name="refresh_desc">Refresh</string>
     <string name="no_service">No service</string>
     <string name="signal_desc">Signal strength</string>
     <string name="battery_desc">Battery level</string>

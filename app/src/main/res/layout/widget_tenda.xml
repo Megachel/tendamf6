@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
     Laid out to fit a 3x1 cell (roughly 250x80dp): three tight rows, no
-    progress bar. The refresh button lives on the first row so it survives
-    at the smallest size — at the bottom it was the first thing clipped.
+    progress bar. The refresh button sits right after the "Updated" time,
+    on the last row, which is never hidden.
 -->
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/root"
@@ -40,7 +40,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <!-- Always visible: signal, network type, battery, unread SMS, refresh -->
+        <!-- Always visible: signal, network type, battery, unread SMS -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -114,16 +114,6 @@
                     android:textSize="15sp" />
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/refresh"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:paddingStart="2dp"
-                android:paddingEnd="2dp"
-                android:text="@string/refresh_glyph"
-                android:textColor="@color/widget_accent"
-                android:textSize="15sp" />
         </LinearLayout>
 
         <!-- Hidden on very short widgets, see TendaWidgetProvider.render -->
@@ -140,6 +130,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="1dp"
+            android:gravity="center_vertical"
             android:orientation="horizontal">
 
             <TextView
@@ -161,6 +152,33 @@
                 android:ellipsize="end"
                 android:textColor="@color/widget_muted"
                 android:textSize="11sp" />
+
+            <!-- While a manual poll runs the icon is swapped for the spinner. -->
+            <FrameLayout
+                android:id="@+id/refresh"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="4dp"
+                android:paddingStart="2dp"
+                android:paddingEnd="2dp">
+
+                <ImageView
+                    android:id="@+id/refresh_icon"
+                    android:layout_width="14dp"
+                    android:layout_height="14dp"
+                    android:contentDescription="@string/refresh_desc"
+                    android:src="@drawable/ic_refresh" />
+
+                <ProgressBar
+                    android:id="@+id/refresh_spinner"
+                    android:layout_width="14dp"
+                    android:layout_height="14dp"
+                    android:indeterminate="true"
+                    android:indeterminateDrawable="@drawable/refresh_spinning"
+                    android:indeterminateDuration="1000"
+                    android:visibility="gone" />
+            </FrameLayout>
         </LinearLayout>
     </LinearLayout>
     </LinearLayout>

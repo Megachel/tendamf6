@@ -87,6 +87,24 @@ object Prefs : SessionStore {
         get() = plain(appContext).getString("last_error", null)
         set(v) = plain(appContext).edit().putString("last_error", v).apply()
 
+    /**
+     * When the user tapped refresh, in epoch millis; 0 when no manual poll is
+     * running. Drives the spinner on the widget.
+     */
+    var refreshStartedAt: Long
+        get() = plain(appContext).getLong("refresh_started", 0L)
+        set(v) = plain(appContext).edit().putLong("refresh_started", v).apply()
+
+    /**
+     * The time limit covers a worker that was killed before it could clear the
+     * flag — the spinner must not turn forever. Three attempts with the backoff
+     * fit in it.
+     */
+    val isRefreshing: Boolean
+        get() = System.currentTimeMillis() - refreshStartedAt < REFRESH_TIMEOUT_MS
+
+    private const val REFRESH_TIMEOUT_MS = 2 * 60_000L
+
     val isConfigured: Boolean get() = password.isNotEmpty()
 
     /** Last successful snapshot — the widget draws it while a new poll runs. */
