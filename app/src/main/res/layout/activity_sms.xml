@@ -18,12 +18,19 @@
         android:layout_marginTop="8dp"
         android:text="@string/action_mark_read" />
 
-    <ListView
-        android:id="@+id/list"
+    <!-- Pull the list down to reload it from the modem. -->
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipe"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:layout_marginTop="8dp"
-        android:divider="?android:attr/listDivider"
-        android:dividerHeight="1dp" />
+        android:layout_marginTop="8dp">
+
+        <ListView
+            android:id="@+id/list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:divider="?android:attr/listDivider"
+            android:dividerHeight="1dp" />
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </LinearLayout>
