@@ -4,6 +4,8 @@ A home screen widget showing the modem's battery level, signal strength,
 network type (4G/3G/EDGE), unread SMS count and data usage. Plus a message
 list screen and notifications about new SMS.
 
+<img src="docs/widget.png" alt="The widget on a Pixel home screen: signal, 4G, battery 75%, one unread SMS, operator, 6.2 GB left, last update time and the refresh button" width="400">
+
 The modem is driven by the same HTTP API its web interface at 192.168.0.1 uses.
 The scheme was recovered from a HAR capture and verified against the real device
 with `tenda_probe.py`.
@@ -133,7 +135,7 @@ data/Prefs.kt        settings; password in EncryptedSharedPreferences
 work/PollWorker.kt   one poll: cache, widget redraw, notification
 work/Scheduler.kt    periodic WorkManager job
 widget/              RemoteViews widget, 4x2
-ui/MainActivity.kt   settings, a "Test" button and 5-second live refresh
+ui/MainActivity.kt   settings, an "Update" button and 5-second live refresh
 ui/SmsActivity.kt    message list and explicit mark-as-read
 ```
 
@@ -156,8 +158,8 @@ Decisions worth knowing about:
   interface.
 - **Three polling tiers.** Background: WorkManager, 15 minutes, its own floor.
   Foreground: while the settings screen is on top it refreshes every 5 seconds,
-  which costs nothing extra because the phone is awake anyway. On demand: the ⟳
-  button on the widget.
+  which costs nothing extra because the phone is awake anyway. On demand: the
+  refresh button on the widget, which spins while the poll runs.
 - **Sub-minute background polling is not worth attempting.** WorkManager's floor
   is 15 minutes and a widget's own `updatePeriodMillis` floor is 30; anything
   faster needs a foreground service with a permanent notification, and on
@@ -209,8 +211,8 @@ Decisions worth knowing about:
   tall. Both keep all three rows; only the width changes. Below 220dp the
   provider scales the type down (15sp to 13sp, 11sp to 10sp) and the padding
   with it, because `RemoteViews` cannot change margins before API 31 but can
-  change text size and padding. The refresh button sits on the first row —
-  at the bottom it was the first thing to get clipped.
+  change text size and padding. The refresh button sits right after the
+  "Updated" time on the last row, which is never hidden.
 - **The SSID is deliberately not checked**: reading the network name requires
   the location permission. We just try the request instead.
 
