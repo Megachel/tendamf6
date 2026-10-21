@@ -31,8 +31,7 @@
     <string name="label_notify">Notify about new SMS</string>
     <string name="every_n_minutes">Every %1$d min</string>
 
-    <string name="action_save">Save</string>
-    <string name="action_test">Test</string>
+    <string name="action_update">Update</string>
     <string name="action_open_sms">Open SMS</string>
     <string name="action_mark_read">Mark as read</string>
 

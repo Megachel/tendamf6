@@ -4,10 +4,13 @@ import android.Manifest
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.view.View
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.SeekBar
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -19,7 +22,9 @@ import com.megachel.tendamf6.net.ModemNetwork
 import com.megachel.tendamf6.net.modemNetwork
 import com.megachel.tendamf6.net.formatBytes
 import com.megachel.tendamf6.widget.TendaWidgetProvider
+import com.megachel.tendamf6.work.Scheduler
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
@@ -35,9 +40,19 @@ private val INTERVALS = listOf(15L, 30L, 60L, 180L)
  */
 private const val LIVE_INTERVAL_MS = 5_000L
 
+/**
+ * Host and password are stored once typing pauses, not on every key: each
+ * stored password drops the session cookie, and the live poll would log in
+ * with half a password in the meantime.
+ */
+private const val TEXT_SAVE_DELAY_MS = 600L
+
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+
+    /** Pending debounced save of the text fields, see [TEXT_SAVE_DELAY_MS]. */
+    private var textSave: Job? = null
 
     private val notificationPermission =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { }
@@ -74,9 +89,24 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
-        binding.save.setOnClickListener { save() }
-        binding.test.setOnClickListener {
-            save()
+        // There is no Save button: every control stores its value as it changes.
+        binding.host.doAfterTextChanged { scheduleTextSave() }
+        binding.password.doAfterTextChanged { scheduleTextSave() }
+        binding.notify.setOnCheckedChangeListener { _, checked -> Prefs.notifySms = checked }
+        binding.interval.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View?, pos: Int, id: Long) {
+                // The spinner also reports its initial selection, which changes nothing.
+                val minutes = INTERVALS[pos]
+                if (minutes == Prefs.intervalMinutes) return
+                Prefs.intervalMinutes = minutes
+                Scheduler.schedulePeriodic(this@MainActivity)
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>) = Unit
+        }
+
+        binding.update.setOnClickListener {
+            saveText()
             lifecycleScope.launch { poll() }
         }
         binding.openSms.setOnClickListener {
@@ -106,14 +136,29 @@ class MainActivity : AppCompatActivity() {
         binding.opacityValue.text = getString(R.string.percent_value, value)
     }
 
-    private fun save() {
-        Prefs.host = binding.host.text.toString()
-        Prefs.password = binding.password.text.toString()
-        Prefs.notifySms = binding.notify.isChecked
-        Prefs.intervalMinutes = INTERVALS[binding.interval.selectedItemPosition]
-        Prefs.backgroundOpacity = binding.opacity.progress
+    /** Leaving the screen must not lose the last few characters typed. */
+    override fun onPause() {
+        if (textSave?.isActive == true) saveText()
+        super.onPause()
+    }
+
+    private fun scheduleTextSave() {
+        textSave?.cancel()
+        textSave = lifecycleScope.launch {
+            delay(TEXT_SAVE_DELAY_MS)
+            saveText()
+        }
+    }
+
+    private fun saveText() {
+        textSave?.cancel()
+        val host = binding.host.text.toString().trim()
+        val password = binding.password.text.toString()
+        if (host == Prefs.host && password == Prefs.password) return
+        Prefs.host = host
+        Prefs.password = password
+        // The widget shows "set the password" until there is one.
         TendaWidgetProvider.refreshAll(this)
-        com.megachel.tendamf6.work.Scheduler.schedulePeriodic(this)
     }
 
     private suspend fun poll() {
