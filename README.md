@@ -240,6 +240,32 @@ CI copy is signed with the debug key generated on the runner rather than the one
 on your machine, so installing it over a locally built copy fails with
 `INSTALL_FAILED_UPDATE_INCOMPATIBLE`; uninstall first.
 
-Only the debug variant is installable as is — it is signed with the local debug
-key. `release` has no `signingConfig`, so `assembleRelease` produces an unsigned
-APK that `adb install` refuses.
+## Releases
+
+Pushing a tag that starts with `v` publishes a signed APK on the
+[Releases](https://github.com/Megachel/tendamf6/releases) page
+(`.github/workflows/release.yml`):
+
+```bash
+git tag v1.1
+git push origin v1.1
+```
+
+`versionName` is the tag without the `v`; `versionCode` is the number of
+commits up to the tag, so every later release installs over the previous one.
+
+The release text is taken from `docs/releases/<tag>.md` (for example
+`docs/releases/v1.1.md`), so commit that file before pushing the tag. Without
+it GitHub generates the notes from the commits since the previous release.
+
+The release key is not in the repository. The workflow reads it from four
+repository secrets: `RELEASE_KEYSTORE_BASE64` (the `.jks` file in base64),
+`RELEASE_KEYSTORE_PASSWORD`, `RELEASE_KEY_ALIAS` and `RELEASE_KEY_PASSWORD`.
+Without them the job fails rather than publishing an unsigned APK. Keep a copy
+of the key: a release signed with a different one does not install over an
+existing copy until that copy is uninstalled.
+
+A local `assembleRelease` is signed only when `RELEASE_KEYSTORE_FILE` and the
+three other variables are set; otherwise it produces an unsigned APK that
+`adb install` refuses. Debug, CI and release builds are signed with different
+keys, so switching between them on one phone needs an uninstall first.
